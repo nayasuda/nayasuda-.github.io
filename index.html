@@ -5,736 +5,1189 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>0dB.craft - ひとひらの余白に、知性を。</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400&family=Noto+Serif+JP:wght@200;300;400&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none;
         }
-        
-        :root {
-            --bg-primary: #F8F7F4;
-            --text-primary: #333333;
-            --accent-lavender: #D8D8F6;
-            --accent-mint: #C8E6C9;
-            --accent-glow: #E8D8F6;
-            --void: #FAFAFA;
-        }
-        
+
         body {
-            font-family: 'Noto Sans JP', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Helvetica Neue', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
             line-height: 1.8;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
             overflow-x: hidden;
-            font-weight: 100;
-            transition: background-color 3s ease;
         }
-        
-        /* Custom Cursor - Ripple of Silence */
-        .cursor {
-            width: 30px;
-            height: 30px;
-            position: fixed;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.15s ease;
-        }
-        
-        .cursor-ring {
-            width: 100%;
-            height: 100%;
-            border: 1px solid var(--text-primary);
-            border-radius: 50%;
-            opacity: 0.3;
-            transition: all 0.3s ease;
-        }
-        
-        .silence-ripple {
-            position: fixed;
-            width: 100px;
-            height: 100px;
-            border: 1px solid var(--text-primary);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        @keyframes ripple {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(4);
-                opacity: 0;
-            }
-        }
-        
-        /* Minimal Navigation - Just a Presence */
-        nav {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            z-index: 1000;
-            opacity: 0;
-            animation: subtle-appear 3s ease-out 2s forwards;
-        }
-        
-        .nav-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--text-primary);
-            border-radius: 50%;
-            opacity: 0.2;
-            transition: all 0.5s ease;
-            cursor: pointer;
-        }
-        
-        .nav-dot:hover {
-            opacity: 0.6;
-            transform: scale(1.5);
-        }
-        
-        @keyframes subtle-appear {
-            to {
-                opacity: 1;
-            }
-        }
-        
-        /* Sound Visualization Background */
-        .sound-canvas {
+
+        /* Floating particles for zen atmosphere */
+        .particles {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
-            opacity: 0.05;
+            pointer-events: none;
+            z-index: 1;
         }
-        
-        /* Hero - Pure Space */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .hero h1 {
-            font-size: clamp(2rem, 6vw, 4rem);
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 200;
-            letter-spacing: 0.3em;
-            opacity: 0;
-            animation: breathe-in 4s ease-out 1s forwards;
-        }
-        
-        @keyframes breathe-in {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-                letter-spacing: 0.5em;
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-                letter-spacing: 0.3em;
-            }
-        }
-        
-        .hero-subtitle {
-            font-size: 0.9rem;
-            margin-top: 2rem;
-            opacity: 0;
-            animation: subtle-appear 3s ease-out 3s forwards;
-            font-weight: 300;
-            letter-spacing: 0.15em;
-        }
-        
-        /* Minimal CTA - Just Dots */
-        .minimal-cta {
-            margin-top: 4rem;
-            opacity: 0;
-            animation: subtle-appear 3s ease-out 4s forwards;
-        }
-        
-        .three-dots {
-            display: flex;
-            gap: 8px;
-            cursor: pointer;
-            padding: 20px;
-        }
-        
-        .dot {
-            width: 4px;
-            height: 4px;
-            background: var(--text-primary);
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(52, 73, 94, 0.1);
             border-radius: 50%;
-            opacity: 0.3;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(250, 250, 250, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(52, 73, 94, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        /* Toggle switches */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(127, 140, 141, 0.3);
+            transition: .3s;
+            border-radius: 24px;
+            border: 1px solid rgba(52, 73, 94, 0.2);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 2px;
+            bottom: 2px;
+            background-color: #34495e;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: rgba(52, 73, 94, 0.6);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-label {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-left: 8px;
+            font-weight: 300;
+            min-width: 30px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+            color: #e8e8e8;
+        }
+
+        .dark-mode header {
+            background: rgba(26, 26, 26, 0.95);
+            border-bottom: 1px solid rgba(200, 200, 200, 0.1);
+        }
+
+        .dark-mode .logo {
+            color: #e8e8e8;
+        }
+
+        .dark-mode .hero h1 {
+            color: #e8e8e8;
+        }
+
+        .dark-mode .hero-subtitle {
+            color: #a0a0a0;
+        }
+
+        .dark-mode .section-title {
+            color: #e8e8e8;
+        }
+
+        .dark-mode .story-text {
+            color: #c0c0c0;
+        }
+
+        .dark-mode .concept-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .concept-title {
+            color: #e8e8e8;
+        }
+
+        .dark-mode .concept-desc {
+            color: #a0a0a0;
+        }
+
+        .dark-mode .vision {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        }
+
+        .dark-mode .vision-text {
+            color: #e8e8e8;
+        }
+
+        .dark-mode .product-preview {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .product-title {
+            color: #e8e8e8;
+        }
+
+        .dark-mode .product-desc {
+            color: #c0c0c0;
+        }
+
+        .dark-mode .release-note {
+            color: #a0a0a0;
+        }
+
+        .dark-mode .product-icon-wrapper {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .product-icon {
+            background: #2c3e50;
+        }
+
+        .dark-mode .click-hint {
+            color: #a0a0a0;
+        }
+
+        .dark-mode .toggle-label {
+            color: #a0a0a0;
+        }
+
+        .dark-mode .slider {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .dark-mode .slider:before {
+            background-color: #e8e8e8;
+        }
+
+        .dark-mode .flatline {
+            background: #e8e8e8;
+        }
+
+        .dark-mode .silence-pulse {
+            background: #e8e8e8;
+        }
+
+        .dark-mode .space-circle {
+            border-color: #e8e8e8;
+        }
+
+        .dark-mode .wave-bar {
+            background: #e8e8e8;
+        }
+
+        .dark-mode .zen-circle {
+            border-color: rgba(232, 232, 232, 0.3);
+        }
+
+        .dark-mode .zen-line {
+            background: rgba(232, 232, 232, 0.2);
+        }
+
+        .logo {
+            font-family: 'Times New Roman', serif;
+            font-size: 24px;
+            font-weight: 300;
+            color: #2c3e50;
+            letter-spacing: 1px;
+            text-decoration: none;
             transition: all 0.3s ease;
         }
-        
-        .three-dots:hover .dot {
-            opacity: 0.8;
+
+        .logo:hover {
+            opacity: 0.7;
         }
-        
-        .three-dots:hover .dot:nth-child(1) { transform: translateX(-5px); }
-        .three-dots:hover .dot:nth-child(3) { transform: translateX(5px); }
-        
-        /* Void Section - Intentional Emptiness */
-        .void-section {
-            height: 100vh;
+
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            z-index: 10;
         }
-        
-        .void-text {
-            font-size: 0.8rem;
-            opacity: 0.1;
-            letter-spacing: 0.3em;
-            transition: opacity 2s ease;
-        }
-        
-        .void-section:hover .void-text {
-            opacity: 0.05;
-        }
-        
-        /* Story - Breathing Text */
-        .story {
+
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 4rem 2rem;
+            text-align: center;
+            padding: 120px 0 80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 60px;
+            letter-spacing: 0.02em;
+            line-height: 1.4;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        /* Brand logo integration */
+        .brand-logo {
+            margin: 60px 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .brand-logo svg {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Section styling */
+        section {
+            padding: 100px 0;
             position: relative;
         }
-        
-        .story-container {
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 80px;
+            color: #2c3e50;
+            letter-spacing: 0.02em;
+        }
+
+        .section-content {
             max-width: 800px;
+            margin: 0 auto;
             text-align: center;
         }
-        
-        .story-line {
-            display: block;
-            margin: 1rem 0;
-            opacity: 0;
-            font-size: 1.1rem;
-            line-height: 2.5;
+
+        .story-text {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: #34495e;
+            margin-bottom: 40px;
             font-weight: 300;
         }
-        
-        .story-line.visible {
-            animation: text-breathe 3s ease-out forwards;
+
+        /* Concept Cards */
+        .concepts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+            margin: 80px 0;
         }
-        
-        @keyframes text-breathe {
-            0% {
-                opacity: 0;
-                filter: blur(10px);
-                transform: translateY(10px);
-            }
-            50% {
-                opacity: 0.6;
-            }
-            100% {
-                opacity: 1;
-                filter: blur(0);
-                transform: translateY(0);
-            }
-        }
-        
-        /* Sound Waves Section */
-        .sound-visualization {
-            height: 100vh;
+
+        .concept-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(52, 73, 94, 0.1);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 73, 94, 0.05), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .concept-card:hover::before {
+            left: 100%;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(52, 73, 94, 0.1);
+        }
+
+        .concept-visual {
+            height: 80px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        /* Silence - Flatline animation */
+        .silence-visual {
+            position: relative;
+            width: 120px;
+            height: 40px;
+        }
+        
+        .flatline {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #34495e;
+            transform: translateY(-50%);
+        }
+        
+        .silence-pulse {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 4px;
+            height: 4px;
+            background: #34495e;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            animation: silencePulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes silencePulse {
+            0% { left: 0; opacity: 1; }
+            100% { left: calc(100% - 4px); opacity: 0.3; }
+        }
+        
+        /* Space - Expanding circles */
+        .space-visual {
+            position: relative;
+            width: 100px;
+            height: 60px;
+        }
+        
+        .space-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px solid #34495e;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: spaceExpand 4s ease-out infinite;
+        }
+        
+        .space-circle:nth-child(1) { animation-delay: 0s; }
+        .space-circle:nth-child(2) { animation-delay: 1.3s; }
+        .space-circle:nth-child(3) { animation-delay: 2.6s; }
+        
+        @keyframes spaceExpand {
+            0% { width: 4px; height: 4px; opacity: 1; }
+            100% { width: 80px; height: 80px; opacity: 0; }
+        }
+        
+        /* Create - Building waveform */
+        .create-visual {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            height: 60px;
+            gap: 3px;
+        }
+        
+        .wave-bar {
+            width: 3px;
+            background: #34495e;
+            border-radius: 2px;
+            animation: waveGrow 2s ease-in-out infinite;
+        }
+        
+        .wave-bar:nth-child(1) { animation-delay: 0s; }
+        .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.6s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.8s; }
+        .wave-bar:nth-child(6) { animation-delay: 1s; }
+        .wave-bar:nth-child(7) { animation-delay: 1.2s; }
+        
+        @keyframes waveGrow {
+            0%, 50% { height: 4px; opacity: 0.3; }
+            25% { height: 40px; opacity: 1; }
+            100% { height: 4px; opacity: 0.3; }
+        }
+
+        .concept-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .concept-desc {
+            color: #7f8c8d;
+            font-size: 1rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* Vision section */
+        .vision {
+            background: linear-gradient(135deg, rgba(52, 73, 94, 0.05) 0%, rgba(127, 140, 141, 0.03) 100%);
+            border-radius: 30px;
+            margin: 100px 0;
+            padding: 80px 60px;
+        }
+
+        .vision-text {
+            font-size: 1.3rem;
+            line-height: 2.2;
+            color: #2c3e50;
+            text-align: center;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Product preview */
+        .product-preview {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 60px;
+            margin: 80px 0;
+            border: 1px solid rgba(52, 73, 94, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .product-content {
+            flex: 1;
+        }
+        
+        .product-icon-wrapper {
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 20px;
+            border-radius: 20px;
+            background: rgba(52, 73, 94, 0.05);
+        }
+        
+        .product-icon-wrapper:hover {
+            transform: translateY(-5px);
+            background: rgba(52, 73, 94, 0.1);
+            box-shadow: 0 10px 30px rgba(52, 73, 94, 0.15);
+        }
+        
+        .product-icon {
+            width: 120px;
+            height: 120px;
+            background: #f4f1eb;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .recipe-icon {
+            width: 80px;
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        .wave-container {
-            position: relative;
-            width: 600px;
-            height: 400px;
+        .recipe-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
         }
         
-        .sound-wave {
+        .click-hint {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-align: center;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .product-desc {
+            font-size: 1.1rem;
+            color: #34495e;
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        .release-note {
+            color: #7f8c8d;
+            font-style: italic;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        .footer-message {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            margin: 20px;
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            margin: 40px 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .social-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            .header-content {
+                padding: 0 20px;
+            }
+            
+            .header-controls {
+                gap: 15px;
+            }
+            
+            .toggle-switch {
+                width: 44px;
+                height: 22px;
+            }
+            
+            .toggle-switch .slider:before {
+                height: 16px;
+                width: 16px;
+                left: 2px;
+                bottom: 2px;
+            }
+            
+            .toggle-switch input:checked + .slider:before {
+                transform: translateX(22px);
+            }
+            
+            .toggle-label {
+                font-size: 0.8rem;
+                min-width: 25px;
+            }
+            
+            .hero {
+                padding: 100px 0 60px;
+            }
+            
+            .concepts {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+            
+            .vision, .product-preview {
+                padding: 40px 30px;
+                margin: 60px 0;
+            }
+            
+            .product-preview {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+            
+            .product-icon {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .recipe-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .social-links {
+                gap: 20px;
+            }
+            
+            .social-icon {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .social-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* Zen-inspired decorative elements */
+        .zen-circle {
             position: absolute;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--text-primary), transparent);
+            width: 200px;
+            height: 200px;
+            border: 1px solid rgba(52, 73, 94, 0.1);
+            border-radius: 50%;
             top: 50%;
-            left: 0;
+            right: -100px;
             transform: translateY(-50%);
             opacity: 0.3;
         }
-        
-        .sound-wave.fade {
-            animation: wave-fade 4s ease-out forwards;
-        }
-        
-        @keyframes wave-fade {
-            0% {
-                transform: translateY(-50%) scaleY(50);
-                opacity: 0.3;
-            }
-            100% {
-                transform: translateY(-50%) scaleY(1);
-                opacity: 0;
-            }
-        }
-        
-        .silence-text {
+
+        .zen-line {
             position: absolute;
-            font-size: 8rem;
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 200;
-            opacity: 0;
-            animation: silence-appear 2s ease-out 2s forwards;
-        }
-        
-        @keyframes silence-appear {
-            to {
-                opacity: 0.05;
-            }
-        }
-        
-        /* Philosophy Quote */
-        .philosophy {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4rem 2rem;
-            background: var(--void);
-        }
-        
-        .philosophy-quote {
-            font-size: clamp(1.5rem, 4vw, 3rem);
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 200;
-            text-align: center;
-            max-width: 900px;
-            line-height: 2;
-            opacity: 0;
-            transform: scale(0.95);
-            transition: all 2s ease-out;
-        }
-        
-        .philosophy-quote.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        /* Products - Poetic Expression */
-        .products {
-            min-height: 100vh;
-            padding: 8rem 2rem;
-            position: relative;
-        }
-        
-        .products-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4rem;
-        }
-        
-        .product {
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s ease-out;
-        }
-        
-        .product.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .product-name {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 300;
-        }
-        
-        .product-essence {
-            font-size: 0.9rem;
-            opacity: 0.6;
-            font-style: italic;
-            letter-spacing: 0.05em;
-        }
-        
-        .product-visual {
             width: 100px;
-            height: 100px;
-            margin: 0 auto 2rem;
-            position: relative;
-        }
-        
-        .breathing-circle {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 1px solid var(--accent-lavender);
-            border-radius: 50%;
-            animation: breathe 4s ease-in-out infinite;
-        }
-        
-        .product:nth-child(2) .breathing-circle {
-            border-color: var(--accent-mint);
-            animation-delay: 1.3s;
-        }
-        
-        .product:nth-child(3) .breathing-circle {
-            border-color: var(--accent-glow);
-            animation-delay: 2.6s;
-        }
-        
-        @keyframes breathe {
-            0%, 100% {
-                transform: scale(0.8);
-                opacity: 0.3;
-            }
-            50% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
-        }
-        
-        /* Final Void */
-        .final-void {
-            height: 150vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .end-message {
-            font-size: 1.1rem;
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            opacity: 0;
-            transition: opacity 3s ease;
-        }
-        
-        .end-message.visible {
-            opacity: 0.3;
-        }
-        
-        /* Footer - Minimal Presence */
-        footer {
-            padding: 4rem 2rem;
-            text-align: center;
-            opacity: 0.2;
-        }
-        
-        .footer-content {
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .products-grid {
-                grid-template-columns: 1fr;
-                gap: 6rem;
-            }
-            
-            .wave-container {
-                width: 90vw;
-            }
-            
-            .silence-text {
-                font-size: 4rem;
-            }
-        }
-        
-        /* Remove scrollbar for cleaner look */
-        ::-webkit-scrollbar {
-            width: 2px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--text-primary);
-            opacity: 0.1;
+            height: 1px;
+            background: rgba(52, 73, 94, 0.1);
+            left: -50px;
+            top: 50%;
+            transform: translateY(-50%);
         }
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor" id="cursor">
-        <div class="cursor-ring"></div>
-    </div>
-    
-    <!-- Sound Visualization Background -->
-    <canvas class="sound-canvas" id="soundCanvas"></canvas>
-    
-    <!-- Minimal Navigation -->
-    <nav>
-        <div class="nav-dot" id="navDot"></div>
-    </nav>
-    
-    <!-- Hero - Pure Space -->
+    <!-- Floating particles for zen atmosphere -->
+    <div class="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">0dB.craft</a>
+            <div class="header-controls">
+                <div class="control-group">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label" id="darkModeLabel">Dark</span>
+                </div>
+                <div class="control-group">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="languageToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label" id="languageLabel">EN</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
     <section class="hero">
-        <h1>ひとひらの余白に、知性を。</h1>
-        <p class="hero-subtitle">Intellect, in a sliver of blank space.</p>
-        <div class="minimal-cta">
-            <div class="three-dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Intentional Void -->
-    <section class="void-section">
-        <p class="void-text">余白</p>
-    </section>
-    
-    <!-- Story - Breathing Text -->
-    <section class="story">
-        <div class="story-container">
-            <span class="story-line">たくさんの情報が飛び交い、</span>
-            <span class="story-line">すべてを理解し、決断し、</span>
-            <span class="story-line">前に進み続けることが求められる現代。</span>
-            <span class="story-line">　</span>
-            <span class="story-line">私たちは、そんな日常に</span>
-            <span class="story-line">ほんのひとひらの余白を</span>
-            <span class="story-line">届けたいと思いました。</span>
-        </div>
-    </section>
-    
-    <!-- Sound Visualization -->
-    <section class="sound-visualization">
-        <div class="wave-container">
-            <div class="sound-wave" id="wave1"></div>
-            <div class="sound-wave" id="wave2" style="top: 40%;"></div>
-            <div class="sound-wave" id="wave3" style="top: 60%;"></div>
-            <div class="sound-wave" id="wave4" style="top: 30%;"></div>
-            <div class="sound-wave" id="wave5" style="top: 70%;"></div>
-            <div class="silence-text">静</div>
-        </div>
-    </section>
-    
-    <!-- Philosophy -->
-    <section class="philosophy">
-        <blockquote class="philosophy-quote">
-            AIは、知識を振りかざすものではなく、<br>
-            誰もが『わかる』『できる』『考えられる』ための<br>
-            優しい道具であってほしい。
-        </blockquote>
-    </section>
-    
-    <!-- Products - Poetic -->
-    <section class="products">
-        <div class="products-grid">
-            <div class="product">
-                <div class="product-visual">
-                    <div class="breathing-circle"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>ひとひらの余白に、知性を。</h1>
+                <div class="brand-logo">
+                    <svg viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+                                <stop offset="70%" style="stop-color:#34495e;stop-opacity:0.8" />
+                                <stop offset="100%" style="stop-color:#7f8c8d;stop-opacity:0.3" />
+                            </linearGradient>
+                            <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#34495e;stop-opacity:0.9" />
+                            </linearGradient>
+                        </defs>
+                        <g fill="none" stroke="url(#waveGradient)" stroke-width="1.5">
+                            <path d="M 20 60 Q 30 35, 40 60 T 60 60 Q 70 45, 80 60 T 100 60 Q 108 50, 116 60 T 132 60 Q 138 55, 144 60 T 156 60 Q 160 58, 164 60 T 172 60 Q 174 59, 176 60 T 180 60 L 200 60" opacity="0.9"/>
+                            <path d="M 25 60 Q 35 40, 45 60 T 65 60 Q 75 48, 85 60 T 105 60 Q 112 52, 120 60 T 136 60 Q 142 56, 148 60 T 160 60 Q 164 58.5, 168 60 T 176 60 Q 178 59.2, 180 60 T 185 60 L 205 60" opacity="0.7"/>
+                            <path d="M 30 60 Q 40 42, 50 60 T 70 60 Q 80 49, 90 60 T 110 60 Q 116 53, 124 60 T 140 60 Q 145 57, 150 60 T 162 60 Q 165 58.8, 169 60 T 177 60 Q 179 59.5, 181 60 T 186 60 L 210 60" opacity="0.5"/>
+                        </g>
+                        <line x1="200" y1="60" x2="300" y2="60" stroke="#34495e" stroke-width="1" opacity="0.4"/>
+                        <text x="90" y="45" font-family="'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="300" fill="url(#textGradient)" letter-spacing="2px" opacity="0.95">0dB</text>
+                        <circle cx="150" cy="43" r="1.5" fill="#7f8c8d" opacity="0.8"/>
+                        <text x="160" y="45" font-family="'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="300" fill="url(#textGradient)" letter-spacing="3px" opacity="0.9">craft</text>
+                        <text x="90" y="85" font-family="'Helvetica Neue', Arial, sans-serif" font-size="9" font-weight="300" fill="#7f8c8d" letter-spacing="2px" opacity="0.8">SILENCE × CRAFTSMANSHIP</text>
+                    </svg>
                 </div>
-                <h3 class="product-name">0dB Talk</h3>
-                <p class="product-essence">思考に、呼吸を</p>
-            </div>
-            <div class="product">
-                <div class="product-visual">
-                    <div class="breathing-circle"></div>
-                </div>
-                <h3 class="product-name">0dB Flow</h3>
-                <p class="product-essence">アイデアの、静かな流れ</p>
-            </div>
-            <div class="product">
-                <div class="product-visual">
-                    <div class="breathing-circle"></div>
-                </div>
-                <h3 class="product-name">0dB Muse</h3>
-                <p class="product-essence">そばに、いる</p>
+                <p class="hero-subtitle">テクノロジーを、もっと人に寄り添える存在に</p>
             </div>
         </div>
     </section>
-    
-    <!-- Final Void -->
-    <section class="final-void">
-        <p class="end-message">"考える楽しさ"を、あなたと一緒に。</p>
+
+    <!-- Brand Story -->
+    <section id="story">
+        <div class="container">
+            <div class="section-content">
+                <h2 class="section-title">0dB.craftが目指すもの</h2>
+                <div class="zen-circle"></div>
+                <p class="story-text">
+                    たくさんの情報が飛び交い、<br>
+                    すべてを理解し、決断し、前に進み続けることが求められる現代。<br>
+                    私たちは、そんな日常にほんのひとひらの余白を届けたいと思いました。
+                </p>
+                <p class="story-text">
+                    テクノロジーは、もっと人に寄り添える。<br>
+                    技術は、知識を振りかざすものではなく、<br>
+                    誰もが「わかる」「できる」「考えられる」ための優しい道具であってほしい。
+                </p>
+                <p class="story-text">
+                    0dB.craftが目指すのは、<br>
+                    技術を"使いこなす"のではなく、共に遊び、共に考える関係性。<br>
+                    大げさな革命ではなく、<br>
+                    ふとした瞬間に「これって、心地いいな」と思えるような、<br>
+                    静かで楽しい体験を作るブランドです。
+                </p>
+            </div>
+        </div>
     </section>
-    
-    <!-- Minimal Footer -->
+
+    <!-- Concepts -->
+    <section id="concepts">
+        <div class="container">
+            <h2 class="section-title">私たちが大切にしていること</h2>
+            <div class="concepts">
+                <div class="concept-card">
+                    <div class="concept-visual">
+                        <div class="silence-visual">
+                            <div class="flatline"></div>
+                            <div class="silence-pulse"></div>
+                        </div>
+                    </div>
+                    <h3 class="concept-title">静寂 (Silence)</h3>
+                    <p class="concept-desc">騒がしい世界に、0dBの安らぎを</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-visual">
+                        <div class="space-visual">
+                            <div class="space-circle"></div>
+                            <div class="space-circle"></div>
+                            <div class="space-circle"></div>
+                        </div>
+                    </div>
+                    <h3 class="concept-title">余白 (Space)</h3>
+                    <p class="concept-desc">何もないからこそ、すべてが生まれる場所を</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-visual">
+                        <div class="create-visual">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+                    </div>
+                    <h3 class="concept-title">造る (Create)</h3>
+                    <p class="concept-desc">ひとつひとつ、心を込めて造り上げる</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision -->
+    <section id="vision">
+        <div class="container">
+            <div class="vision">
+                <div class="zen-line"></div>
+                <h2 class="section-title">静寂に宿る、本当の知性</h2>
+                <p class="vision-text">
+                    0dB、それは完全な静寂を意味します。<br>
+                    騒がしい場所では聞こえない、心の奥の声があります。<br>
+                    本当に大切なことは、静寂の中でしか見えてこない。<br><br>
+                    AIが雄弁に語るのではなく、<br>
+                    あなたの内なる声に耳を傾けられるよう、<br>
+                    そっと寄り添ってくれる。<br><br>
+                    そんな「静かな知性」を、すべての人に。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Preview -->
+    <section id="products">
+        <div class="container">
+            <h2 class="section-title">0dB.craftから、はじまるもの。</h2>
+            <div class="product-preview">
+                <div class="product-content">
+                    <h3 class="product-title">Re;cipe</h3>
+                    <p class="product-desc">
+                        食材の写真を撮ると、レシピを提案してくれる。<br>
+                        冷蔵庫の余り物から、あなただけの一品が生まれます。
+                    </p>
+                    <p class="release-note">2025年7月にリリース予定です。</p>
+                </div>
+                <div class="product-icon-wrapper" onclick="window.open('https://recipe-app.com/preregister', '_blank')">
+                    <div class="product-icon">
+                        <div class="recipe-icon">
+                            <img id="recipeIcon" src="" alt="Re;cipe App Icon">
+                        </div>
+                    </div>
+                    <p class="click-hint">事前登録はこちら</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            0dB.craft
+        <div class="container">
+            <p class="footer-message">"考える楽しさ"を、あなたと一緒に。</p>
+            <a href="#" class="cta-button">お問い合わせ</a>
+            <div class="social-links">
+                <a href="#" class="social-icon" title="X (Twitter)">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-icon" title="Instagram">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+            </div>
+            <p style="color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-top: 40px;">
+                © 2025 0dB.craft. All rights reserved.
+            </p>
         </div>
     </footer>
-    
+
     <script>
-        // Custom Cursor with Ripple Effect
-        const cursor = document.getElementById('cursor');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        // Smooth cursor movement
-        function animateCursor() {
-            const dx = mouseX - cursorX;
-            const dy = mouseY - cursorY;
-            
-            cursorX += dx * 0.1;
-            cursorY += dy * 0.1;
-            
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-            
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-        
-        // Create silence ripples on click
-        document.addEventListener('click', (e) => {
-            const ripple = document.createElement('div');
-            ripple.className = 'silence-ripple';
-            ripple.style.left = e.clientX + 'px';
-            ripple.style.top = e.clientY + 'px';
-            ripple.style.animation = 'ripple 2s ease-out';
-            document.body.appendChild(ripple);
-            
-            setTimeout(() => ripple.remove(), 2000);
-        });
-        
-        // Sound Canvas - Subtle noise pattern
-        const canvas = document.getElementById('soundCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            drawNoise();
-        }
-        
-        function drawNoise() {
-            const imageData = ctx.createImageData(canvas.width, canvas.height);
-            const data = imageData.data;
-            
-            for (let i = 0; i < data.length; i += 4) {
-                const noise = Math.random() * 255;
-                data[i] = noise;
-                data[i + 1] = noise;
-                data[i + 2] = noise;
-                data[i + 3] = 5; // Very subtle
+        // Language content
+        const content = {
+            ja: {
+                heroTitle: "ひとひらの余白に、知性を。",
+                heroSubtitle: "テクノロジーを、もっと人に寄り添える存在に",
+                storyTitle: "0dB.craftが目指すもの",
+                storyText1: "たくさんの情報が飛び交い、<br>すべてを理解し、決断し、前に進み続けることが求められる現代。<br>私たちは、そんな日常にほんのひとひらの余白を届けたいと思いました。",
+                storyText2: "テクノロジーは、もっと人に寄り添える。<br>技術は、知識を振りかざすものではなく、<br>誰もが「わかる」「できる」「考えられる」ための優しい道具であってほしい。",
+                storyText3: "0dB.craftが目指すのは、<br>技術を\"使いこなす\"のではなく、共に遊び、共に考える関係性。<br>大げさな革命ではなく、<br>ふとした瞬間に「これって、心地いいな」と思えるような、<br>静かで楽しい体験を作るブランドです。",
+                conceptsTitle: "私たちが大切にしていること",
+                silenceTitle: "静寂 (Silence)",
+                silenceDesc: "騒がしい世界に、0dBの安らぎを",
+                spaceTitle: "余白 (Space)",
+                spaceDesc: "何もないからこそ、すべてが生まれる場所を",
+                createTitle: "造る (Create)",
+                createDesc: "ひとつひとつ、心を込めて造り上げる",
+                visionTitle: "静寂に宿る、本当の知性",
+                visionText: "0dB、それは完全な静寂を意味します。<br>騒がしい場所では聞こえない、心の奥の声があります。<br>本当に大切なことは、静寂の中でしか見えてこない。<br><br>AIが雄弁に語るのではなく、<br>あなたの内なる声に耳を傾けられるよう、<br>そっと寄り添ってくれる。<br><br>そんな「静かな知性」を、すべての人に。",
+                productsTitle: "0dB.craftから、はじまるもの。",
+                productDesc: "食材の写真を撮ると、レシピを提案してくれる。<br>冷蔵庫の余り物から、あなただけの一品が生まれます。",
+                releaseNote: "2025年7月にリリース予定です。",
+                clickHint: "事前登録はこちら",
+                footerMessage: "\"考える楽しさ\"を、あなたと一緒に。",
+                contactButton: "お問い合わせ",
+                darkModeLabel: "Dark",
+                languageLabel: "EN"
+            },
+            en: {
+                heroTitle: "Intelligence in every grain of space.",
+                heroSubtitle: "Making technology more human-centered",
+                storyTitle: "What 0dB.craft aims for",
+                storyText1: "In today's world filled with information overload,<br>where we're expected to understand everything, make decisions, and keep moving forward,<br>we wanted to deliver just a grain of space to such daily life.",
+                storyText2: "Technology can be more human-centered.<br>We believe technology should not be about flaunting knowledge,<br>but a gentle tool that helps everyone \"understand,\" \"achieve,\" and \"think.\"",
+                storyText3: "What 0dB.craft aims for is not \"mastering\" technology,<br>but a relationship where we play and think together.<br>Not a grand revolution,<br>but moments when you think \"this feels just right\"—<br>a brand that creates quiet and joyful experiences.",
+                conceptsTitle: "What we value",
+                silenceTitle: "Silence",
+                silenceDesc: "Bringing 0dB tranquility to a noisy world",
+                spaceTitle: "Space",
+                spaceDesc: "Where everything is born from nothingness",
+                createTitle: "Create",
+                createDesc: "Crafting each piece with heart and care",
+                visionTitle: "True intelligence dwelling in silence",
+                visionText: "0dB means complete silence.<br>There are voices deep in our hearts that cannot be heard in noisy places.<br>What truly matters can only be seen in silence.<br><br>Rather than AI speaking eloquently,<br>we want it to gently accompany you<br>so you can listen to your inner voice.<br><br>Such \"quiet intelligence\" for everyone.",
+                productsTitle: "What begins from 0dB.craft",
+                productDesc: "Take a photo of ingredients, and it suggests recipes.<br>Your unique dish is born from leftovers in your refrigerator.",
+                releaseNote: "Scheduled for release in July 2025.",
+                clickHint: "Pre-register here",
+                footerMessage: "\"The joy of thinking\" together with you.",
+                contactButton: "Contact us",
+                darkModeLabel: "Dark",
+                languageLabel: "日本語"
             }
-            
-            ctx.putImageData(imageData, 0, 0);
+        };
+
+        let currentLang = 'ja';
+        let isDarkMode = false;
+
+        // Load and resize Recipe app icon
+        async function loadRecipeIcon() {
+            try {
+                const imageData = await window.fs.readFile('image.png');
+                const blob = new Blob([imageData], { type: 'image/png' });
+                const img = new Image();
+                
+                img.onload = function() {
+                    // Create canvas for resizing
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Set target size (160x160 for crisp display)
+                    const targetSize = 160;
+                    canvas.width = targetSize;
+                    canvas.height = targetSize;
+                    
+                    // Draw resized image
+                    ctx.drawImage(img, 0, 0, targetSize, targetSize);
+                    
+                    // Set as src for the icon
+                    const recipeIcon = document.getElementById('recipeIcon');
+                    recipeIcon.src = canvas.toDataURL('image/png');
+                };
+                
+                img.src = URL.createObjectURL(blob);
+            } catch (error) {
+                console.error('Failed to load Recipe icon:', error);
+                // Fallback: hide the icon or show placeholder
+            }
         }
-        
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        
-        // Story breathing text animation
-        const storyObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const lines = entry.target.querySelectorAll('.story-line');
-                    lines.forEach((line, index) => {
-                        setTimeout(() => {
-                            line.classList.add('visible');
-                        }, index * 800);
-                    });
-                }
-            });
-        }, { threshold: 0.3 });
-        
-        const storySection = document.querySelector('.story');
-        if (storySection) {
-            storyObserver.observe(storySection);
-        }
-        
-        // Sound wave animation
-        const waveObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const waves = entry.target.querySelectorAll('.sound-wave');
-                    waves.forEach((wave, index) => {
-                        setTimeout(() => {
-                            wave.classList.add('fade');
-                        }, index * 200);
-                    });
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        const soundSection = document.querySelector('.sound-visualization');
-        if (soundSection) {
-            waveObserver.observe(soundSection);
-        }
-        
-        // Philosophy and products observer
-        const fadeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.3 });
-        
-        document.querySelectorAll('.philosophy-quote, .product, .end-message').forEach(el => {
-            fadeObserver.observe(el);
-        });
-        
-        // Three dots interaction
-        document.querySelector('.three-dots').addEventListener('click', () => {
-            window.scrollTo({
-                top: window.innerHeight * 2,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Navigation dot - toggles silence mode
-        let silenceMode = false;
-        document.getElementById('navDot').addEventListener('click', () => {
-            silenceMode = !silenceMode;
-            document.body.style.backgroundColor = silenceMode ? '#FFFFFF' : 'var(--bg-primary)';
-            document.querySelectorAll('*').forEach(el => {
-                if (el.style) {
-                    el.style.transition = 'opacity 2s ease';
-                    el.style.opacity = silenceMode ? '0.05' : '';
-                }
-            });
-        });
-        
-        // Scroll-based background subtle change
-        let lastScrollTop = 0;
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset;
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollProgress = scrollTop / maxScroll;
+
+        // Create floating particles for zen atmosphere
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            const particleCount = 50;
             
-            // Subtle background shift
-            const lightness = 97 - (scrollProgress * 2);
-            document.body.style.backgroundColor = `hsl(30, 10%, ${lightness}%)`;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Update content based on current language
+        function updateContent() {
+            const c = content[currentLang];
             
-            lastScrollTop = scrollTop;
+            // Update text content
+            document.querySelector('.hero h1').innerHTML = c.heroTitle;
+            document.querySelector('.hero-subtitle').innerHTML = c.heroSubtitle;
+            document.querySelector('#story .section-title').innerHTML = c.storyTitle;
+            
+            const storyTexts = document.querySelectorAll('#story .story-text');
+            storyTexts[0].innerHTML = c.storyText1;
+            storyTexts[1].innerHTML = c.storyText2;
+            storyTexts[2].innerHTML = c.storyText3;
+            
+            document.querySelector('#concepts .section-title').innerHTML = c.conceptsTitle;
+            document.querySelector('.concept-card:nth-child(1) .concept-title').innerHTML = c.silenceTitle;
+            document.querySelector('.concept-card:nth-child(1) .concept-desc').innerHTML = c.silenceDesc;
+            document.querySelector('.concept-card:nth-child(2) .concept-title').innerHTML = c.spaceTitle;
+            document.querySelector('.concept-card:nth-child(2) .concept-desc').innerHTML = c.spaceDesc;
+            document.querySelector('.concept-card:nth-child(3) .concept-title').innerHTML = c.createTitle;
+            document.querySelector('.concept-card:nth-child(3) .concept-desc').innerHTML = c.createDesc;
+            
+            document.querySelector('#vision .section-title').innerHTML = c.visionTitle;
+            document.querySelector('.vision-text').innerHTML = c.visionText;
+            
+            document.querySelector('#products .section-title').innerHTML = c.productsTitle;
+            document.querySelector('.product-desc').innerHTML = c.productDesc;
+            document.querySelector('.release-note').innerHTML = c.releaseNote;
+            document.querySelector('.click-hint').innerHTML = c.clickHint;
+            
+            document.querySelector('.footer-message').innerHTML = c.footerMessage;
+            document.querySelector('.cta-button').innerHTML = c.contactButton;
+            
+            // Update toggle labels
+            document.querySelector('#darkModeLabel').innerHTML = c.darkModeLabel;
+            document.querySelector('#languageLabel').innerHTML = c.languageLabel;
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+        }
+
+        // Toggle language
+        function toggleLanguage() {
+            currentLang = currentLang === 'ja' ? 'en' : 'ja';
+            updateContent();
+        }
+
+        // Smooth scroll for zen-like navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRecipeIcon();
+            createParticles();
+            
+            // Set up toggle switches
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const languageToggle = document.getElementById('languageToggle');
+            
+            darkModeToggle.addEventListener('change', toggleDarkMode);
+            languageToggle.addEventListener('change', toggleLanguage);
+            
+            // Add intersection observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all sections for scroll animations
+            document.querySelectorAll('section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(section);
+            });
+            
+            // Hero section should be visible immediately
+            document.querySelector('.hero').style.opacity = '1';
+            document.querySelector('.hero').style.transform = 'translateY(0)';
         });
     </script>
 </body>
