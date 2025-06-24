@@ -568,13 +568,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 8px;
         }
         
         .recipe-icon img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            border-radius: 8px;
+            object-fit: cover;
+            border-radius: 6px;
         }
         
         .click-hint {
@@ -963,7 +964,7 @@
                 <div class="product-icon-wrapper" onclick="window.open('https://recipe-app.com/preregister', '_blank')">
                     <div class="product-icon">
                         <div class="recipe-icon">
-                            <img src="./images/recipe-icon.png" alt="Re;cipe App Icon">
+                            <img src="images/recipe-icon.png" alt="Re;cipe App Icon">
                         </div>
                     </div>
                     <p class="click-hint">事前登録はこちら</p>
@@ -1053,38 +1054,6 @@
         let currentLang = 'ja';
         let isDarkMode = false;
 
-        // Load and resize Recipe app icon
-        async function loadRecipeIcon() {
-            try {
-                const imageData = await window.fs.readFile('image.png');
-                const blob = new Blob([imageData], { type: 'image/png' });
-                const img = new Image();
-                
-                img.onload = function() {
-                    // Create canvas for resizing
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    
-                    // Set target size (160x160 for crisp display)
-                    const targetSize = 160;
-                    canvas.width = targetSize;
-                    canvas.height = targetSize;
-                    
-                    // Draw resized image
-                    ctx.drawImage(img, 0, 0, targetSize, targetSize);
-                    
-                    // Set as src for the icon
-                    const recipeIcon = document.getElementById('recipeIcon');
-                    recipeIcon.src = canvas.toDataURL('image/png');
-                };
-                
-                img.src = URL.createObjectURL(blob);
-            } catch (error) {
-                console.error('Failed to load Recipe icon:', error);
-                // Fallback: hide the icon or show placeholder
-            }
-        }
-
         // Create floating particles for zen atmosphere
         function createParticles() {
             const particlesContainer = document.querySelector('.particles');
@@ -1152,7 +1121,6 @@
 
         // Smooth scroll for zen-like navigation
         document.addEventListener('DOMContentLoaded', function() {
-            loadRecipeIcon();
             createParticles();
             
             // Set up toggle switches
