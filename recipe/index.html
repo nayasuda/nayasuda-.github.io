@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re;cipe - 事前登録 | 0dB.craft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            overflow-x: hidden;
+        }
+
+        /* Floating particles for zen atmosphere */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(52, 73, 94, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(250, 250, 250, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(52, 73, 94, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .brand-logo {
+            font-family: 'Times New Roman', serif;
+            font-size: 20px;
+            font-weight: 300;
+            color: #2c3e50;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            opacity: 0.7;
+        }
+
+        .back-link {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #2c3e50;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Hero Section - Typography focused */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-content {
+            max-width: none;
+        }
+
+        .hero-typography {
+            margin-bottom: 60px;
+        }
+
+        .main-headline {
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 200;
+            line-height: 1.15;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+            word-spacing: 0.1em;
+        }
+
+        .headline-line {
+            display: block;
+            white-space: nowrap;
+        }
+
+        .main-headline .accent {
+            color: #7f8c8d;
+            font-weight: 100;
+        }
+
+        .hero-description {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: #34495e;
+            line-height: 1.8;
+            max-width: 500px;
+            font-weight: 300;
+            margin-bottom: 40px;
+        }
+
+        .hero-sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            justify-self: center;
+        }
+
+        .app-icon {
+            width: clamp(120px, 15vw, 180px);
+            height: clamp(120px, 15vw, 180px);
+            margin: 0;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(52, 73, 94, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .app-icon:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .app-info {
+            text-align: center;
+        }
+
+        .app-name {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            letter-spacing: 0.02em;
+        }
+
+        .app-tagline {
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            color: #7f8c8d;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        /* App showcase section - Single phone with slider */
+        .app-showcase {
+            margin: 120px 0;
+            text-align: center;
+        }
+
+        .showcase-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .showcase-headline {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 200;
+            color: #2c3e50;
+            margin-bottom: 60px;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        /* Phone slider container */
+        .phone-slider-container {
+            position: relative;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .phone-mockup {
+            position: relative;
+            border-radius: 35px;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(52, 73, 94, 0.25);
+            background: linear-gradient(145deg, #1a1a1a 0%, #2c3e50 100%);
+            padding: 25px;
+        }
+
+        .phone-screen {
+            width: 100%;
+            border-radius: 25px;
+            overflow: hidden;
+            background: white;
+            aspect-ratio: 9 / 19.5;
+            position: relative;
+        }
+
+        .screen-slider {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s ease;
+        }
+
+        .screen-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .screen-slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .ui-preview {
+            text-align: center;
+            color: #2c3e50;
+            width: 100%;
+        }
+
+        .ui-header {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 0.02em;
+        }
+
+        .ui-main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .ui-placeholder {
+            width: 180px;
+            height: 180px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .ui-placeholder-text {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            text-align: center;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        .ui-action-button {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 14px 35px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            border: none;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            box-shadow: 0 8px 25px rgba(52, 73, 94, 0.3);
+        }
+
+        /* Slider controls */
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .slider-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(52, 73, 94, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #34495e;
+            transform: scale(1.2);
+        }
+
+        .nav-button {
+            background: rgba(52, 73, 94, 0.1);
+            border: 1px solid rgba(52, 73, 94, 0.2);
+            color: #34495e;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-button:hover {
+            background: rgba(52, 73, 94, 0.2);
+        }
+
+        .slide-label {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+
+        /* Registration Form */
+        .registration-section {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 60px;
+            margin: 60px 0;
+            border: 1px solid rgba(52, 73, 94, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .registration-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #2c3e50, #34495e, #7f8c8d);
+            opacity: 0.6;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            letter-spacing: 0.02em;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 1rem;
+            color: #34495e;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid rgba(52, 73, 94, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #34495e;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 73, 94, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid rgba(52, 73, 94, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #34495e;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 73, 94, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 30px 0;
+        }
+
+        .checkbox-input {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-size: 0.9rem;
+            color: #34495e;
+            line-height: 1.6;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(52, 73, 94, 0.3);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .success-visual {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #2ecc71;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .success-visual::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 12px;
+            border-left: 3px solid #2ecc71;
+            border-bottom: 3px solid #2ecc71;
+            transform: rotate(-45deg) translate(-2px, -2px);
+        }
+
+        .success-title {
+            font-size: 1.5rem;
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        .success-description {
+            color: #34495e;
+            line-height: 1.6;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(52, 73, 94, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(52, 73, 94, 0.1);
+        }
+
+        /* Phone mockup section */
+        .app-preview {
+            margin: 80px 0;
+            text-align: center;
+        }
+
+        .preview-title {
+            font-size: 2rem;
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 50px;
+            letter-spacing: 0.02em;
+        }
+
+        .phone-mockup {
+            max-width: 300px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(52, 73, 94, 0.3);
+            background: #1a1a1a;
+            padding: 20px;
+        }
+
+        .phone-screen {
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            background: white;
+            aspect-ratio: 9 / 19.5;
+            position: relative;
+        }
+
+        .screen-content {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .app-ui-preview {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .ui-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            letter-spacing: 0.02em;
+        }
+
+        .ui-camera-area {
+            width: 200px;
+            height: 200px;
+            border: 2px dashed #7f8c8d;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .ui-camera-placeholder {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .ui-button {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            border: none;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        .feature-description {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Release Info */
+        .release-info {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(52, 73, 94, 0.05) 0%, rgba(127, 140, 141, 0.03) 100%);
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .release-date {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .release-note {
+            color: #7f8c8d;
+            font-size: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+            
+            .header-content {
+                padding: 0 20px;
+            }
+            
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .hero-sidebar {
+                order: -1;
+            }
+            
+            .main-headline {
+                font-size: clamp(2.2rem, 8vw, 3.5rem);
+                margin-bottom: 30px;
+            }
+            
+            .hero-description {
+                margin-bottom: 30px;
+            }
+            
+            .phone-slider-container {
+                max-width: 280px;
+            }
+            
+            .ui-placeholder {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .ui-placeholder-text {
+                font-size: 0.8rem;
+            }
+            
+            .registration-section {
+                padding: 40px 30px;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles for zen atmosphere -->
+    <div class="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="../" class="brand-logo">0dB.craft</a>
+            <a href="../" class="back-link">← ブランドサイトに戻る</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-typography">
+                        <h1 class="main-headline">
+                            <span class="headline-line">静寂の中で</span>
+                            <span class="headline-line accent">料理と向き合う</span>
+                        </h1>
+                        <p class="hero-description">
+                            写真から始まる、新しい料理体験。<br>
+                            AIが食材を理解し、あなたの想像を超えたレシピを提案します。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="hero-sidebar">
+                    <div class="app-icon">
+                        <img src="../images/recipe-icon.png" alt="Re;cipe App Icon">
+                    </div>
+                    <div class="app-info">
+                        <h2 class="app-name">Re;cipe</h2>
+                        <p class="app-tagline">AI-powered cooking inspiration</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Showcase -->
+        <div class="app-showcase">
+            <div class="showcase-content">
+                <h2 class="showcase-headline">アプリ体験の流れ</h2>
+                
+                <div class="phone-slider-container">
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="screen-slider">
+                                <!-- Slide 1: 食材撮影 -->
+                                <div class="screen-slide active">
+                                    <div class="ui-preview">
+                                        <div class="ui-header">Re;cipe</div>
+                                        <div class="ui-main-area">
+                                            <div class="ui-placeholder">
+                                                <div class="ui-placeholder-text">
+                                                    食材の写真を<br>
+                                                    撮影してください
+                                                </div>
+                                            </div>
+                                            <button class="ui-action-button">食材を撮影</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Slide 2: AI解析 -->
+                                <div class="screen-slide">
+                                    <div class="ui-preview">
+                                        <div class="ui-header">AI解析中...</div>
+                                        <div class="ui-main-area">
+                                            <div class="ui-placeholder">
+                                                <div class="ui-placeholder-text">
+                                                    食材を認識しています<br>
+                                                    しばらくお待ちください
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Slide 3: レシピ提案 -->
+                                <div class="screen-slide">
+                                    <div class="ui-preview">
+                                        <div class="ui-header">レシピ提案</div>
+                                        <div class="ui-main-area">
+                                            <div class="ui-placeholder">
+                                                <div class="ui-placeholder-text">
+                                                    おすすめレシピ<br>
+                                                    3つをご提案
+                                                </div>
+                                            </div>
+                                            <button class="ui-action-button">レシピを見る</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slider Controls -->
+                    <div class="slider-controls">
+                        <button class="nav-button" onclick="previousSlide()">‹</button>
+                        <div class="slider-nav">
+                            <div class="nav-dot active" onclick="currentSlide(1)"></div>
+                            <div class="nav-dot" onclick="currentSlide(2)"></div>
+                            <div class="nav-dot" onclick="currentSlide(3)"></div>
+                        </div>
+                        <button class="nav-button" onclick="nextSlide()">›</button>
+                    </div>
+                    
+                    <div class="slide-label" id="slideLabel">食材撮影</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Release Info -->
+        <div class="release-info">
+            <p class="release-date">2025年7月リリース予定</p>
+            <p class="release-note">事前登録していただいた方には、リリース時に特別なお知らせをお送りします。</p>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="registration-section">
+            <h2 class="section-title">事前登録</h2>
+            
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">メールアドレス *</label>
+                    <input type="email" id="email" name="email" class="form-input" required placeholder="example@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="form-label">お名前</label>
+                    <input type="text" id="name" name="name" class="form-input" placeholder="山田太郎">
+                </div>
+
+                <div class="form-group">
+                    <label for="age" class="form-label">年代</label>
+                    <select id="age" name="age" class="form-select">
+                        <option value="">選択してください</option>
+                        <option value="10代">10代</option>
+                        <option value="20代">20代</option>
+                        <option value="30代">30代</option>
+                        <option value="40代">40代</option>
+                        <option value="50代">50代</option>
+                        <option value="60代以上">60代以上</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cooking_frequency" class="form-label">料理の頻度</label>
+                    <select id="cooking_frequency" name="cooking_frequency" class="form-select">
+                        <option value="">選択してください</option>
+                        <option value="毎日">毎日</option>
+                        <option value="週に数回">週に数回</option>
+                        <option value="週に1回程度">週に1回程度</option>
+                        <option value="月に数回">月に数回</option>
+                        <option value="ほとんどしない">ほとんどしない</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="interests" class="form-label">興味のある機能（複数選択可）</label>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 10px;">
+                        <label class="checkbox-group">
+                            <input type="checkbox" name="interests" value="レシピ提案" class="checkbox-input">
+                            <span class="checkbox-label">レシピ提案</span>
+                        </label>
+                        <label class="checkbox-group">
+                            <input type="checkbox" name="interests" value="栄養情報" class="checkbox-input">
+                            <span class="checkbox-label">栄養情報</span>
+                        </label>
+                        <label class="checkbox-group">
+                            <input type="checkbox" name="interests" value="調理時間短縮" class="checkbox-input">
+                            <span class="checkbox-label">調理時間短縮</span>
+                        </label>
+                        <label class="checkbox-group">
+                            <input type="checkbox" name="interests" value="食材管理" class="checkbox-input">
+                            <span class="checkbox-label">食材管理</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="privacy" name="privacy" class="checkbox-input" required>
+                    <label for="privacy" class="checkbox-label">
+                        プライバシーポリシーに同意し、0dB.craftからのお知らせメールを受け取ることに同意します。*
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-button" id="submitButton">
+                    事前登録する
+                </button>
+            </form>
+
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">✓</div>
+                <h3 class="success-title">登録が完了しました</h3>
+                <p class="success-description">
+                    ご登録いただき、ありがとうございます。<br>
+                    確認メールをお送りしましたので、ご確認ください。<br>
+                    Re;cipeのリリース時に、改めてご連絡いたします。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Slider functionality
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.screen-slide');
+        const dots = document.querySelectorAll('.nav-dot');
+        const slideLabels = ['食材撮影', 'AI解析', 'レシピ提案'];
+
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active', 'prev');
+                if (i < index) {
+                    slide.classList.add('prev');
+                } else if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+
+            // Update dots
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+
+            // Update label
+            const slideLabel = document.getElementById('slideLabel');
+            if (slideLabel) {
+                slideLabel.textContent = slideLabels[index];
+            }
+
+            currentSlideIndex = index;
+        }
+
+        function nextSlide() {
+            const nextIndex = (currentSlideIndex + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+
+        function previousSlide() {
+            const prevIndex = currentSlideIndex === 0 ? slides.length - 1 : currentSlideIndex - 1;
+            showSlide(prevIndex);
+        }
+
+        function currentSlide(index) {
+            showSlide(index - 1);
+        }
+
+        // Load and display Recipe app icon
+        async function loadRecipeIcon() {
+            try {
+                const imageData = await window.fs.readFile('image.png');
+                const blob = new Blob([imageData], { type: 'image/png' });
+                const img = document.getElementById('recipeIcon');
+                const loading = document.getElementById('iconLoading');
+                
+                img.onload = function() {
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                };
+                
+                img.src = URL.createObjectURL(blob);
+            } catch (error) {
+                console.error('Failed to load Recipe icon:', error);
+                // Fallback: hide loading and show a placeholder or default
+                const loading = document.getElementById('iconLoading');
+                if (loading) {
+                    loading.textContent = 'Re;cipe';
+                    loading.style.background = 'linear-gradient(135deg, #f4f1eb 0%, #e9ecef 100%)';
+                    loading.style.borderRadius = '25px';
+                }
+            }
+        }
+
+        // Auto-advance slides
+        function startAutoSlide() {
+            return setInterval(nextSlide, 4000);
+        }
+
+        let autoSlideInterval;
+
+        // Create floating particles for zen atmosphere
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Handle form submission
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            const submitButton = document.getElementById('submitButton');
+            const form = document.getElementById('registrationForm');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Show loading state
+            submitButton.innerHTML = '<span class="loading"></span> 登録中...';
+            submitButton.disabled = true;
+            
+            // Collect form data
+            const formData = new FormData(form);
+            const data = {};
+            
+            // Convert FormData to object
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    // Handle multiple values (checkboxes)
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            // Add timestamp
+            data.timestamp = new Date().toISOString();
+            
+            // Simulate API call (replace with actual implementation)
+            setTimeout(() => {
+                console.log('Registration data:', data);
+                
+                // Here you would typically send data to your backend
+                // Example: submitToGoogleSheets(data);
+                
+                // Show success message
+                form.style.display = 'none';
+                successMessage.classList.add('show');
+                
+                // Reset button (optional, since form is hidden)
+                submitButton.innerHTML = '事前登録する';
+                submitButton.disabled = false;
+                
+            }, 2000);
+        }
+
+        // Google Sheets integration function (requires backend setup)
+        async function submitToGoogleSheets(data) {
+            try {
+                // This would be your Google Apps Script web app URL
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbyHC_3-c9_CP3N5U32Z2EhfciYVvAy8B_YJ4Hj7XKbvsqj8Y18KGjoTx1FLxh4381HOtQ/exec';
+                
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    console.log('Data successfully submitted to Google Sheets');
+                    return true;
+                } else {
+                    throw new Error('Failed to submit data');
+                }
+            } catch (error) {
+                console.error('Error submitting data:', error);
+                return false;
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Initialize slider
+            if (slides.length > 0) {
+                showSlide(0);
+                autoSlideInterval = startAutoSlide();
+                
+                // Pause auto-slide on hover
+                const phoneContainer = document.querySelector('.phone-slider-container');
+                if (phoneContainer) {
+                    phoneContainer.addEventListener('mouseenter', () => {
+                        clearInterval(autoSlideInterval);
+                    });
+                    
+                    phoneContainer.addEventListener('mouseleave', () => {
+                        autoSlideInterval = startAutoSlide();
+                    });
+                }
+            }
+            
+            // Add form submission handler
+            const form = document.getElementById('registrationForm');
+            form.addEventListener('submit', handleFormSubmission);
+            
+            // Add smooth animations to elements
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements for scroll animations
+            document.querySelectorAll('.app-showcase, .registration-section, .release-info').forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
