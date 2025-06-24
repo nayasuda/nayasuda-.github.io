@@ -202,8 +202,15 @@
             color: #a0a0a0;
         }
 
-        .dark-mode .product-icon-wrapper {
-            background: rgba(255, 255, 255, 0.1);
+        .dark-mode .click-hint {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+            color: #e8e8e8;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dark-mode .click-hint:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
         
         .dark-mode .phone-mockup {
@@ -563,17 +570,17 @@
         
         .product-icon-wrapper {
             flex-shrink: 0;
-            cursor: pointer;
             transition: all 0.3s ease;
             padding: 20px;
-            border-radius: 20px;
-            background: rgba(52, 73, 94, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
         
-        .product-icon-wrapper:hover {
+        .product-icon-wrapper:hover .phone-mockup {
             transform: translateY(-5px);
-            background: rgba(52, 73, 94, 0.1);
-            box-shadow: 0 10px 30px rgba(52, 73, 94, 0.15);
+            box-shadow: 0 15px 40px rgba(52, 73, 94, 0.2);
         }
         
         .product-icon {
@@ -668,9 +675,34 @@
         .app-screenshot {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             object-position: center;
+            background: #f8f9fa;
+            border-radius: 0;
         }
+        
+        /* Alternative sizing options - uncomment as needed */
+        /*.app-screenshot {
+            width: 90%;
+            height: 90%;
+            object-fit: cover;
+            object-position: center top;
+            margin: 5%;
+            border-radius: 8px;
+        }*/
+        
+        /* For specific aspect ratio adjustment */
+        /*.carousel-container {
+            padding: 10px;
+        }
+        
+        .app-screenshot {
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            margin: 10px;
+            object-fit: cover;
+            border-radius: 15px;
+        }*/
         
         /* Carousel Controls */
         .carousel-indicators {
@@ -731,10 +763,30 @@
         
         .click-hint {
             font-size: 0.9rem;
-            color: #7f8c8d;
+            color: #fff;
             text-align: center;
-            margin-top: 10px;
-            opacity: 0.8;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            box-shadow: 0 4px 15px rgba(52, 73, 94, 0.2);
+        }
+        
+        .click-hint:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 73, 94, 0.3);
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+        }
+        
+        .click-hint:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(52, 73, 94, 0.2);
         }
 
         .product-title {
@@ -905,6 +957,11 @@
             .phone-mockup {
                 width: 140px;
                 height: 280px;
+            }
+            
+            .click-hint {
+                font-size: 0.8rem;
+                padding: 10px 20px;
             }
             
             .social-links {
@@ -1112,7 +1169,7 @@
                     </p>
                     <p class="release-note">2025年7月にリリース予定です。</p>
                 </div>
-                <div class="product-icon-wrapper" onclick="window.open('./recipe/', '_blank')">
+                <div class="product-icon-wrapper">
                     <div class="product-icon">
                         <div class="phone-mockup" id="phoneCarousel">
                             <div class="phone-screen">
@@ -1148,7 +1205,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="click-hint">事前登録はこちら</p>
+                    <a href="./recipe/" target="_blank" class="click-hint">事前登録はこちら</a>
                 </div>
             </div>
         </div>
@@ -1278,7 +1335,7 @@
             document.querySelector('#products .section-title').innerHTML = c.productsTitle;
             document.querySelector('.product-desc').innerHTML = c.productDesc;
             document.querySelector('.release-note').innerHTML = c.releaseNote;
-            document.querySelector('.click-hint').innerHTML = c.clickHint;
+            document.querySelector('.click-hint').textContent = c.clickHint;
             
             document.querySelector('.footer-message').innerHTML = c.footerMessage;
             document.querySelector('.cta-button').innerHTML = c.contactButton;
