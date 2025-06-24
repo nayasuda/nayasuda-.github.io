@@ -566,6 +566,9 @@
         
         .product-content {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
         .product-icon-wrapper {
@@ -1168,6 +1171,9 @@
                         冷蔵庫の余り物から、あなただけの一品が生まれます。
                     </p>
                     <p class="release-note">2025年7月にリリース予定です。</p>
+                    <div style="margin-top: 30px;">
+                        <a href="./recipe/" target="_blank" class="click-hint">事前登録はこちら</a>
+                    </div>
                 </div>
                 <div class="product-icon-wrapper">
                     <div class="product-icon">
@@ -1205,7 +1211,6 @@
                             </div>
                         </div>
                     </div>
-                    <a href="./recipe/" target="_blank" class="click-hint">事前登録はこちら</a>
                 </div>
             </div>
         </div>
@@ -1335,7 +1340,10 @@
             document.querySelector('#products .section-title').innerHTML = c.productsTitle;
             document.querySelector('.product-desc').innerHTML = c.productDesc;
             document.querySelector('.release-note').innerHTML = c.releaseNote;
-            document.querySelector('.click-hint').textContent = c.clickHint;
+            const clickHintElement = document.querySelector('.click-hint');
+            if (clickHintElement) {
+                clickHintElement.textContent = c.clickHint;
+            }
             
             document.querySelector('.footer-message').innerHTML = c.footerMessage;
             document.querySelector('.cta-button').innerHTML = c.contactButton;
