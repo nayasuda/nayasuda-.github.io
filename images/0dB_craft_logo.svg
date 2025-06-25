@@ -1,0 +1,101 @@
+<svg viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 音波のグラデーション -->
+    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#34495e;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#7f8c8d;stop-opacity:0.3" />
+    </linearGradient>
+    
+    <!-- テキストのグラデーション -->
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34495e;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <!-- 微細なテクスチャ効果 -->
+    <filter id="subtleTexture">
+      <feTurbulence baseFrequency="0.9" numOctaves="4" seed="5" stitchTiles="stitch"/>
+      <feColorMatrix in="turbulence" type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="discrete" tableValues="0.02"/>
+      </feComponentTransfer>
+      <feComposite operator="over" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="400" height="120" fill="#fafafa"/>
+  
+  <!-- メインの音波形 - 左から右へ静寂に向かう -->
+  <g fill="none" stroke="url(#waveGradient)" stroke-width="1.5">
+    <!-- 複数の音波が重なり合い、徐々に静寂に -->
+    <path d="M 20 60 Q 30 35, 40 60 T 60 60 Q 70 45, 80 60 T 100 60 Q 108 50, 116 60 T 132 60 Q 138 55, 144 60 T 156 60 Q 160 58, 164 60 T 172 60 Q 174 59, 176 60 T 180 60 L 200 60" opacity="0.9"/>
+    
+    <path d="M 25 60 Q 35 40, 45 60 T 65 60 Q 75 48, 85 60 T 105 60 Q 112 52, 120 60 T 136 60 Q 142 56, 148 60 T 160 60 Q 164 58.5, 168 60 T 176 60 Q 178 59.2, 180 60 T 185 60 L 205 60" opacity="0.7"/>
+    
+    <path d="M 30 60 Q 40 42, 50 60 T 70 60 Q 80 49, 90 60 T 110 60 Q 116 53, 124 60 T 140 60 Q 145 57, 150 60 T 162 60 Q 165 58.8, 169 60 T 177 60 Q 179 59.5, 181 60 T 186 60 L 210 60" opacity="0.5"/>
+  </g>
+  
+  <!-- 静寂の表現 - フラットライン -->
+  <line x1="200" y1="60" x2="300" y2="60" stroke="#34495e" stroke-width="1" opacity="0.4"/>
+  
+  <!-- 音波の周波数スペクトラム的表現 -->
+  <g fill="url(#waveGradient)" opacity="0.6">
+    <rect x="22" y="58" width="1" height="4"/>
+    <rect x="26" y="56" width="1" height="8"/>
+    <rect x="30" y="54" width="1" height="12"/>
+    <rect x="34" y="55" width="1" height="10"/>
+    <rect x="38" y="57" width="1" height="6"/>
+    <rect x="42" y="56.5" width="1" height="7"/>
+    <rect x="46" y="58" width="1" height="4"/>
+    <rect x="50" y="58.5" width="1" height="3"/>
+    <rect x="54" y="59" width="1" height="2"/>
+    <rect x="58" y="59.2" width="1" height="1.6"/>
+    <rect x="62" y="59.5" width="1" height="1"/>
+    <rect x="66" y="59.7" width="1" height="0.6"/>
+    <rect x="70" y="59.8" width="1" height="0.4"/>
+  </g>
+  
+  <!-- メインテキスト "0dB" - Recipeスタイルのモダンサンセリフ -->
+  <text x="90" y="45" font-family="'Helvetica Neue', 'San Francisco', 'Segoe UI', Arial, sans-serif" font-size="30" font-weight="300" fill="url(#textGradient)" letter-spacing="2px" opacity="0.95" filter="url(#subtleTexture)">
+    0dB
+  </text>
+  
+  <!-- セパレータードット - "B"と"c"から等距離に -->
+  <circle cx="150" cy="43" r="1.5" fill="#7f8c8d" opacity="0.8"/>
+  
+  <!-- "craft" テキスト - ドットから等距離に -->
+  <text x="160" y="45" font-family="'Helvetica Neue', 'San Francisco', 'Segoe UI', Arial, sans-serif" font-size="20" font-weight="300" fill="url(#textGradient)" letter-spacing="3px" opacity="0.9" filter="url(#subtleTexture)">
+    craft
+  </text>
+  
+  <!-- サブテキスト - コンセプトライン -->
+  <text x="90" y="85" font-family="'Helvetica Neue', Arial, sans-serif" font-size="9" font-weight="300" fill="#7f8c8d" letter-spacing="2px" opacity="0.8">
+    SILENCE × CRAFTSMANSHIP
+  </text>
+  
+  <!-- 装飾的な要素 - 職人技を表現する繊細なライン -->
+  <g stroke="#34495e" stroke-width="0.5" fill="none" opacity="0.3">
+    <!-- 上部の装飾線 -->
+    <path d="M 85 25 Q 90 20, 95 25 T 105 25 Q 110 22, 115 25 T 125 25"/>
+    <path d="M 155 25 Q 165 22, 175 25 T 195 25 Q 205 22, 215 25"/>
+    
+    <!-- 下部の装飾線 -->
+    <path d="M 85 95 Q 95 98, 105 95 T 125 95"/>
+    <path d="M 155 95 Q 170 98, 185 95 T 215 95"/>
+  </g>
+  
+  <!-- 精密さを表現する小さな十字マーク -->
+  <g stroke="#34495e" stroke-width="0.3" opacity="0.4">
+    <line x1="320" y1="35" x2="325" y2="35"/>
+    <line x1="322.5" y1="32.5" x2="322.5" y2="37.5"/>
+    
+    <line x1="330" y1="45" x2="333" y2="45"/>
+    <line x1="331.5" y1="43.5" x2="331.5" y2="46.5"/>
+  </g>
+  
+  <!-- 0dBポイントの精密マーカー -->
+  <circle cx="300" cy="60" r="2" fill="none" stroke="#34495e" stroke-width="0.5" opacity="0.6"/>
+  <text x="308" y="64" font-family="'Helvetica Neue', Arial, sans-serif" font-size="7" fill="#7f8c8d" opacity="0.7">0dB</text>
+</svg>

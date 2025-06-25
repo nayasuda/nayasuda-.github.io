@@ -247,10 +247,6 @@
             position: relative;
         }
 
-
-
-
-
         /* Registration Form */
         .registration-section {
             background: rgba(255, 255, 255, 0.8);
@@ -1149,8 +1145,6 @@
             try {
                 const success = await submitToGoogleSheets(data);
                 if (success) {
-                    console.log('Registration data:', data);
-                    
                     // Show success message
                     form.style.display = 'none';
                     successMessage.classList.add('show');
@@ -1170,12 +1164,8 @@
         // Google Sheets integration function (requires backend setup)
         async function submitToGoogleSheets(data) {
             try {
-                // This would be your Google Apps Script web app URL
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbwXpJBTe7t6Kegb_seLE5HQ7XB0ynWo6XuSFbRt6TQdi0uMNInlZxOkk_EeEsWGMs2Y4Q/exec';
                 
-                console.log('Submitting data to GAS:', data);
-                
-                // FormDataを使用してCORS問題を回避
                 const formData = new FormData();
                 Object.keys(data).forEach(key => {
                     if (Array.isArray(data[key])) {
@@ -1191,9 +1181,6 @@
                     body: formData
                 });
                 
-                console.log('Request sent successfully (no-cors mode)');
-                // no-corsモードではレスポンスの詳細を読み取れないが、
-                // エラーが投げられなければ成功とみなす
                 return true;
                 
             } catch (error) {
