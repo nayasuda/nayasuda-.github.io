@@ -1113,7 +1113,7 @@
         }
 
         // Handle form submission
-        function handleFormSubmission(event) {
+        async function handleFormSubmission(event) {
             event.preventDefault();
             
             const submitButton = document.getElementById('submitButton');
@@ -1146,27 +1146,25 @@
             data.timestamp = new Date().toISOString();
             
             // Submit to Google Sheets
-            submitToGoogleSheets(data)
-                .then(success => {
-                    if (success) {
-                        console.log('Registration data:', data);
-                        
-                        // Show success message
-                        form.style.display = 'none';
-                        successMessage.classList.add('show');
-                    } else {
-                        throw new Error('Submission failed');
-                    }
-                })
-                .catch(error => {
-                    console.error('Submission error:', error);
-                    alert('登録に失敗しました。もう一度お試しください。');
-                })
-                .finally(() => {
-                    // Reset button
-                    submitButton.innerHTML = '事前登録する';
-                    submitButton.disabled = false;
-                });
+            try {
+                const success = await submitToGoogleSheets(data);
+                if (success) {
+                    console.log('Registration data:', data);
+                    
+                    // Show success message
+                    form.style.display = 'none';
+                    successMessage.classList.add('show');
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('登録に失敗しました。もう一度お試しください。');
+            } finally {
+                // Reset button
+                submitButton.innerHTML = '事前登録する';
+                submitButton.disabled = false;
+            }
         }
 
         // Google Sheets integration function (requires backend setup)
