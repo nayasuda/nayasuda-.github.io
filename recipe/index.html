@@ -1145,22 +1145,28 @@
             // Add timestamp
             data.timestamp = new Date().toISOString();
             
-            // Simulate API call (replace with actual implementation)
-            setTimeout(() => {
-                console.log('Registration data:', data);
-                
-                // Here you would typically send data to your backend
-                // Example: submitToGoogleSheets(data);
-                
-                // Show success message
-                form.style.display = 'none';
-                successMessage.classList.add('show');
-                
-                // Reset button (optional, since form is hidden)
-                submitButton.innerHTML = '事前登録する';
-                submitButton.disabled = false;
-                
-            }, 2000);
+            // Submit to Google Sheets
+            submitToGoogleSheets(data)
+                .then(success => {
+                    if (success) {
+                        console.log('Registration data:', data);
+                        
+                        // Show success message
+                        form.style.display = 'none';
+                        successMessage.classList.add('show');
+                    } else {
+                        throw new Error('Submission failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Submission error:', error);
+                    alert('登録に失敗しました。もう一度お試しください。');
+                })
+                .finally(() => {
+                    // Reset button
+                    submitButton.innerHTML = '事前登録する';
+                    submitButton.disabled = false;
+                });
         }
 
         // Google Sheets integration function (requires backend setup)
