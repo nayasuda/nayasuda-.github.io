@@ -421,6 +421,13 @@ body {
             /* High DPI support */
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
+            /* Smooth fade transition */
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Fade effect during logo switch */
+        .brand-logo img.fading {
+            opacity: 0;
         }
         
         /* Fallback for older browsers */
@@ -1132,7 +1139,8 @@ footer {
             <div class="hero-content">
                 <h1 itemprop="name">ひとひらの余白に、知性を。</h1>
                 <div class="brand-logo">
-                    <img src="images/0dB_craft_logo.png" 
+                    <img id="brandLogoImg"
+                         src="images/0dB_craft_logo.png" 
                          alt="0dB.craft - ひとひらの余白に、知性を。" 
                          width="400" 
                          height="120"
@@ -1383,6 +1391,16 @@ footer {
 
         let currentLang = 'ja';
         let isDarkMode = false;
+        
+        // Preload logo images for smooth switching
+        const logoImages = {
+            light: new Image(),
+            dark: new Image()
+        };
+        
+        // Preload images
+        logoImages.light.src = 'images/0dB_craft_logo.png';
+        logoImages.dark.src = 'images/0dB_craft_logo_dark.png';
 
         // Create floating particles for zen atmosphere
         function createParticles() {
@@ -1444,6 +1462,41 @@ footer {
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
             document.body.classList.toggle('dark-mode', isDarkMode);
+            updateBrandLogo();
+        }
+        
+        // Initialize brand logo without fade effect
+        function initializeBrandLogo() {
+            const brandLogo = document.getElementById('brandLogoImg');
+            if (!brandLogo) return;
+            
+            // Set initial logo without animation
+            if (isDarkMode) {
+                brandLogo.src = logoImages.dark.src;
+            } else {
+                brandLogo.src = logoImages.light.src;
+            }
+        }
+        
+        // Update brand logo based on dark mode with smooth fade effect
+        function updateBrandLogo() {
+            const brandLogo = document.getElementById('brandLogoImg');
+            if (!brandLogo) return;
+            
+            // Add fading class for smooth transition
+            brandLogo.classList.add('fading');
+            
+            // Wait for fade out to complete, then switch image
+            setTimeout(() => {
+                if (isDarkMode) {
+                    brandLogo.src = logoImages.dark.src;
+                } else {
+                    brandLogo.src = logoImages.light.src;
+                }
+                
+                // Remove fading class to fade back in
+                brandLogo.classList.remove('fading');
+            }, 200); // Half of the transition duration for seamless effect
         }
 
         // Toggle language
@@ -1580,6 +1633,9 @@ footer {
             
             darkModeToggle.addEventListener('change', toggleDarkMode);
             languageToggle.addEventListener('change', toggleLanguage);
+            
+            // Initialize brand logo (no fade on initial load)
+            initializeBrandLogo();
             
             // Add intersection observer for scroll animations
             const observerOptions = {
