@@ -414,6 +414,16 @@ body {
             animation: fadeInUp 1s ease-out 0.6s both;
         }
 
+        .brand-logo img {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            /* High DPI support */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+        
+        /* Fallback for older browsers */
         .brand-logo svg {
             max-width: 400px;
             width: 100%;
@@ -1057,6 +1067,11 @@ footer {
                 width: 20px;
                 height: 20px;
             }
+            
+            /* Brand logo mobile optimization */
+            .brand-logo img {
+                max-width: 280px;
+            }
         }
 
         /* Zen-inspired decorative elements */
@@ -1117,29 +1132,11 @@ footer {
             <div class="hero-content">
                 <h1 itemprop="name">ひとひらの余白に、知性を。</h1>
                 <div class="brand-logo">
-                    <svg viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
-                                <stop offset="70%" style="stop-color:#34495e;stop-opacity:0.8" />
-                                <stop offset="100%" style="stop-color:#7f8c8d;stop-opacity:0.3" />
-                            </linearGradient>
-                            <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#34495e;stop-opacity:0.9" />
-                            </linearGradient>
-                        </defs>
-                        <g fill="none" stroke="url(#waveGradient)" stroke-width="1.5">
-                            <path d="M 20 60 Q 30 35, 40 60 T 60 60 Q 70 45, 80 60 T 100 60 Q 108 50, 116 60 T 132 60 Q 138 55, 144 60 T 156 60 Q 160 58, 164 60 T 172 60 Q 174 59, 176 60 T 180 60 L 200 60" opacity="0.9"/>
-                            <path d="M 25 60 Q 35 40, 45 60 T 65 60 Q 75 48, 85 60 T 105 60 Q 112 52, 120 60 T 136 60 Q 142 56, 148 60 T 160 60 Q 164 58.5, 168 60 T 176 60 Q 178 59.2, 180 60 T 185 60 L 205 60" opacity="0.7"/>
-                            <path d="M 30 60 Q 40 42, 50 60 T 70 60 Q 80 49, 90 60 T 110 60 Q 116 53, 124 60 T 140 60 Q 145 57, 150 60 T 162 60 Q 165 58.8, 169 60 T 177 60 Q 179 59.5, 181 60 T 186 60 L 210 60" opacity="0.5"/>
-                        </g>
-                        <line x1="200" y1="60" x2="300" y2="60" stroke="#34495e" stroke-width="1" opacity="0.4"/>
-                        <text x="90" y="45" font-family="'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="300" fill="url(#textGradient)" letter-spacing="2px" opacity="0.95">0dB</text>
-                        <circle cx="150" cy="43" r="1.5" fill="#7f8c8d" opacity="0.8"/>
-                        <text x="160" y="45" font-family="'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="300" fill="url(#textGradient)" letter-spacing="3px" opacity="0.9">craft</text>
-                        <text x="90" y="85" font-family="'Helvetica Neue', Arial, sans-serif" font-size="9" font-weight="300" fill="#7f8c8d" letter-spacing="2px" opacity="0.8">SILENCE × CRAFTSMANSHIP</text>
-                    </svg>
+                    <img src="images/0dB_craft_logo.png" 
+                         alt="0dB.craft - ひとひらの余白に、知性を。" 
+                         width="400" 
+                         height="120"
+                         loading="lazy">
                 </div>
                 <p class="hero-subtitle">テクノロジーを、もっと人に寄り添える存在に</p>
     </div>
